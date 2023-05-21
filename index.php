@@ -56,14 +56,10 @@ Se non viene specificato nessun filtro, visualizzare come in precedenza tutti gl
 
     ];
 
+
 ?>
 
 <!---------------------  ----------------------->
-
-
-<?php
-
-?>
 
 
 <!DOCTYPE html>
@@ -77,52 +73,73 @@ Se non viene specificato nessun filtro, visualizzare come in precedenza tutti gl
 
 </head>
 <body>
-
+<form action="index.php" method="GET">
 
     <div>
+        <select name="filtro">
+            <option value="T">hotels</option>
+            <option value=1>con parcheggio</option>
+            <option value=0>senza parcheggio</option>
+        </select>
+
+        <button type="submit" >Invio</button>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome Hotel</th>
+                    <th scope="col">Descrizione</th>
                     <th scope="col">Voto</th>
                     <th scope="col">Distanza</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td><?php echo ($hotels[0]['name']) ?></td>
-                    <td><?php echo ($hotels[0]['vote']) ?></td>
-                    <td><?php echo ($hotels[0]['distance_to_center']) ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td><?php echo ($hotels[1]['name']) ?></td>
-                    <td><?php echo ($hotels[1]['vote']) ?></td>
-                    <td><?php echo ($hotels[1]['distance_to_center']) ?> km</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td> <?php echo ($hotels[2]['name']) ?></td>
-                    <td> <?php echo ($hotels[2]['vote']) ?></td>
-                    <td> <?php echo ($hotels[2]['distance_to_center']) ?> km</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td> <?php echo ($hotels[3]['name']) ?></td>
-                    <td> <?php echo ($hotels[3]['vote']) ?></td>
-                    <td> <?php echo ($hotels[3]['distance_to_center']) ?> km</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td> <?php echo ($hotels[4]['name']) ?></td>
-                    <td> <?php echo ($hotels[4]['vote']) ?></td>
-                    <td> <?php echo ($hotels[4]['distance_to_center']) ?> km</td>
-                </tr>
+            <tbody>            
+                <?php
+
+                    for($i=0; $i<count($hotels); $i++){
+                        if($_GET["filtro"]=="T"){
+                            echo('
+                                <tr>
+                                    <th scope="row">'.$i.'</th>
+                                    <td>'.$hotels[$i]['name'].'</td>
+                                    <td>'.$hotels[$i]['description'].'</td>                                    
+                                    <td>'.$hotels[$i]['vote'].'</td>
+                                    <td>'.$hotels[$i]['distance_to_center'].' </td>
+                                </tr>'
+                            );
+                        }else if($_GET["filtro"]=="1"){
+                            if($hotels[$i]['parking'] == true){
+                                echo('
+                                    <tr>
+                                        <th scope="row">'.$i.'</th>
+                                        <td>'.$hotels[$i]['name'].'</td>
+                                        <td>'.$hotels[$i]['description'].'</td>                                    
+                                        <td>'.$hotels[$i]['vote'].'</td>
+                                        <td>'.$hotels[$i]['distance_to_center'].' </td>
+                                    </tr>'
+                                );
+                            }
+                        }else if($_GET["filtro"]=="0"){
+                            if($hotels[$i]['parking'] == false){
+                                echo('
+                                    <tr>
+                                        <th scope="row">'.$i.'</th>
+                                        <td>'.$hotels[$i]['name'].'</td>
+                                        <td>'.$hotels[$i]['description'].'</td>                                    
+                                        <td>'.$hotels[$i]['vote'].'</td>
+                                        <td>'.$hotels[$i]['distance_to_center'].' </td>
+                                    </tr>'
+                                );
+                            }
+                        }
+                    }
+                ?>
             </tbody>
         </table>    
     </div>
+
+
+    </form>
 
 
 
